@@ -1,0 +1,365 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MISO Prices</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+    
+    <!-- Map takes up full browser window -->
+    <style>
+        html, #map {
+        height: 500px;
+        padding: 10;
+        margin: 10;
+      }
+        
+        .ui-autocomplete {
+            max-height: 300px;
+            overflow-y: auto;
+            /* prevent horizontal scrollbar */
+            overflow-x: hidden;
+            /* add padding to account for vertical scrollbar */
+            padding-right: 20px;
+    }
+        div.tophead {background-color: #428bca;
+        color: White}
+    </style>
+    <style>
+        body {background-color: #eee<!--rgba(204,204,204,0.8)-->;
+            <!--background:url('Background.jpg');
+        background-size:cover;-->
+        }
+    </style>
+
+    <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script>
+  $(function() {
+      var availableTags = ['ALTE.EDGG4G4','ALTW.ALTW','ALTW.BRLGTN5','ALTW.DAEC','ALTW.LANSIN4','ALTW.OTTUMW1','AMIL.ALSEYCTG1','AMIL.BALDWI51','AMIL.CLINTO51','AMIL.COFFEEN1','AMIL.DUCKCRK1','AMIL.EDWARDS2','AMIL.HAVANA86','AMIL.HENNEPN82','AMIL.NEWTON21','AMIL.PTWF','AMIL.PPI','AMIL.PSGC1.AMP','AMIL.STWF','AMIL.WOODRW85','AMMO.CALLAWAY1','AMMO.LABADIE1','AMMO.MERAMEC3','AMMO.RUSHIS1','AMMO.SIOUX1','AMMO.UE','AMMO.UE.AZ','AMMO.WVPA','BREC.COLE1','BREC.HMP1','BREC.WILSON1','CIN.CAYUGA.1','CIN.CC.SUGRCK','CIN.DEI.AZ','CIN.GIBSON.1','CIN.PSI','CIN.WABRIVR.6','CONS.AZ','CONS.CAMPBELL1','CONS.CC.MICHP','CONS.CC.PLYM','CONS.CC.ZEELA2','CONS.CETR','CONS.FILERCITY','CONS.KARN1','CONS.MCV.MCV','CONS.PALISA2A1','CONS.WPSC_2.AZ','CWLD.CWLD','CWLP.DALLMA84','DECO.AZ','DECO.CC.DIG2','DECO.FERMI2','DECO.MONROE1','DECO.NEC','DECO.STCLAIR6','DECO.TRNCNL9','DPC.DPC','DPC.GENOA3','DPC.JPM','GRE.STANTO1','HE.MEROM1','HE.WORTH2','ILLINOIS.HUB','INDIANA.HUB','IPL.16PETEE1','IPL.16STOU7O7','IPL.IPL','MDU.LEWIS1','MDU.TATANKA1','MEC.NEALN_2','MEC.OTTUMWA1','MEC.PPWIND','MEC.WSEC3','MICHIGAN.HUB','MINN.HUB','MP.MP_BOS4','MPW.UNIT_9','NIPS.BAILLP8','NIPS.CC.WHITN','NIPS.MICHCP12','NIPS.NIPS','NIPS.SCHAHP14','NPPD','NSP.AZ','NSP.CC.HIBRDG1','NSP.KING1','NSP.NSP','NSP.PRISL1','NSP.SHERCO2','OTP.BIGSTON1','OTP.MPC','OTP.MPC.LANGDN','SIGE.10ABBGN1','SIGE.10CULGN3','SIPC.5MRN_PN14','SMP.OWEF','TVA.WHITEOAK','UPPC.ESCCT','UPPC.WARDEN','WAUE','WEC.CC.PORTW1','WEC.OKCGC6','WEC.PLPRG41','WEC.PTBHGB1','WEC.S','WPS.COLUMBIA1','WPS.WESTON3','WPS.WPSM',];
+    $( "#tags" ).autocomplete({
+        minLength: 0,
+      source: availableTags
+    }).focus(function() {
+    $(this).autocomplete("search", $(this).val());
+});
+
+
+    $( "#tags2" ).autocomplete({
+        minLength: 0,
+      source: availableTags
+     }).focus(function() {
+    $(this).autocomplete("search", $(this).val());
+
+    });
+  });
+  </script>
+    <style type="text/css">
+p {
+   font-size: 16px;
+}
+        h3{font-weight:bold;}
+
+</style>
+</head>
+
+<body>
+    <center>
+    <div class="tophead">
+        <br>
+    <h1> EPAT: the Energy Price Analysis Tool </h1>
+    <h4>Access all the data you need to study the Midwest energy market</h4>
+        <h4>Matthew T. Lawder</h4>
+        <h5>matthew.lawder@mg.thedataincubator.com</h5>
+        <br>
+        </div>
+    </center>
+    <center>
+    <nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+          <li><a href="#"> Home </a></li>
+
+        <li><a href="#Wind_Farms">Main Project </a></li>
+          <li><a href="#Wind_Farms"> Build a new Wind Farm </a></li>
+          <li><a href="#Energy_Tool"> Analyze Energy Prices </a></li>
+          <li><a href="#Energy_Tool"> Determine Transmission Cost </a></li>
+          <li><a href="#MISO"> Learn more about MISO </a></li>
+          <li><a href="#Author"> About Author </a></li>
+      </ul>
+      
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+        
+</nav>
+    </center>
+    <div class="container">
+        <div class="col-sm-6">
+            <h3>
+                <center>
+                We study energy prices to make better decisions about generation
+                </center>
+            </h3>
+            <p>
+                While your utility probably bills you at a flat rate for every unit (kWh) of energy you consume, the price of energy is not constant. Many different utilities and third-party operators generate energy and they buy sell energy in real-time. When local demand is for energy is high (eg. during a hot summer day), prices will be driven up in order to secure more generation. When there is lots of generation, but low demand (eg. on a blustry day near an isolated wind farm) prices will be driven down. All of these prices are monitored and regulated by the Midcontinent Independent System Operator Regional Transmission Organization or MISO for short. They monitor the price of energy across a large swath of middle America. By studying their historical database on prices from 10's of thousands of nodes, we make actionable decisions to:</p>
+        </div>
+        <div class="center-block">
+        <div class="col-sm-6">
+            <br>
+            <img src="/static/Background.jpg"  class="img-responsive" alt="Responsive image">
+            </div>
+            </div>
+
+    </div>
+
+<!--    <div class="container">
+        <div class="col-sm-offset-1 col-sm-10">
+        <ul><h3>
+            <li><a href=#Energy_Tool>Determine where new wind farms will be most profitable</a></li>
+            <li><a href=#Energy_Tool>Analyze a individual generator's historical prices</a></li>
+            <li><a href=#Energy_Tool>Produce fixed for floating calculations for new generation</a></li>
+            <li><a href=#Energy_Tool>Calculate transmission restrictions within the grid</a></li>
+            </h3>
+        </ul>
+        </div>
+    </div>
+    -->
+    <br>
+    <div class="container">
+        <div class="col-sm-3">
+            <a href="#Wind_Farms" class="btn btn-info btn-lg btn-block" role="button" style="white-space: normal;"><u><h3>Build a New Wind Farm</h3></u><p>Determine where new wind farms will be most profitable</p></a>
+        </div>
+        <div class="col-sm-3">
+             <a href="#Energy_Tool" class="btn btn-info btn-lg btn-block" role="button" style="white-space: normal;"><u><h3>Analyze Energy Prices</h3></u><p>Analyze a individual generator's historical prices</p></a>
+           
+        </div>
+        <div class="col-sm-3">
+ <a href="#Energy_Tool" class="btn btn-info btn-lg btn-block" role="button" style="white-space: normal;"><u><h3>Setting Energy Contracts</h3></u><p>Produce fixed for floating calculations for multiple sites</p></a>
+        </div>
+        <div class="col-sm-3">
+            <a href="#Energy_Tool" class="btn btn-info btn-lg btn-block" role="button" style="white-space: normal;"><u><h3>Study Transmission</h3></u><p>Calculate transmission restrictions within the grid</p></a>
+        </div>
+        
+    </div>
+    <br>
+        <div class="tophead">
+                    <br>
+                    <center>
+                    <h2 id="Wind_Farms">Where to Build your Wind Farm</h2>  
+          <br>
+                        </center>
+        </div>
+    <div class="container">
+        
+        <div class="col-sm-6">
+            
+            <br><br>
+            <p> The prevailing logic states that wind farms need to be built in areas with the highest wind potential. This is true when your goal is to produce the most energy from a wind turbine as possible. However, if your goal is to maximize profit, placing turbines is not that simple.</p>
+            <p> The map below shows all of the wind farms in purple for the state of Iowa on top of an annual average wind speed map. Most of the farms are clustered in the areas that recieve the highest wind. They will produce more energy, but when the wind is at high speed and all these farms are producing together, they drive down energy prices in the area. This creates diminishing returns for a wind farm.</p>
+            <p> The graph on the right the correlation between energy prices at a wind farm (the MEC.PPWIND node near Fort Dodge in the image below) and wind speeds in he area. The downward trend shows that as the wind goes up the value of energy goes does disincentivizing the wind farm to produce energy</p>
+            <p>Instead of placing new wind farms in these saturated markets, new sites that allow do not follow this trend need to be found.</p>
+            <!--
+            <p> Many of the areas with the highest wind potential are often in remote locations far away from where energy is demanded (see the clustering of wind farms in sparesly populated North and West Iowa below). Because there are physical limitations on transmission, the mismatch in supply and demand of energy can cause energy prices in areas high wind potential to be supressed. As the wind speed increases in an area, energy prices are driven downward because there is more generation than demand (see figure to right of Energy node MEC.PPWIND from Northwestern Iowa) and there is not sufficient transmission to allow energy to flow freely to larger cities. So while your turbine produces more energy, each unit of energy it produces is less valueable. Sometime the price of energy will even go negative!</p>
+            <p>This type of trend will hold in a region that is wind saturated. For areas that are already wind saturated, building more wind turbines will yield diminishing returns. And setting up long term power purchase agreements at a fixed price, may not be beneficial to consumers</p>
+            <p>Instead of building in areas that are wind saturated. Developers need to study both wind patterns and energy price trends to determine regions where markets are not wind staurated. Our analysis focused on finding these regions that offered the highest value for building new wind farms</p>
+-->
+            <p>
+                <br>
+                <center>
+                <form id='towind' method='get' action="wind_details" >
+                <input type='submit' value='Learn more about how to find these sites' class="btn btn-primary btn-lg" >
+            </form>
+    </center>
+            </p>
+            <br>
+        </div>
+		<div class="col-sm-6">
+            <br>
+		<img src="/static/PPWIND_2015.jpg"  class="img-responsive" alt="Placeholder">
+            <center><p style="font-size:10;"><i>Price of energy at different wind speeds for MEC.PPWIND node. Sometimes the price is even negative!</i></p></center>
+		</div>
+    </div>
+    <br>
+    <div class='container'>
+        <div class="col-sm-2">
+        </div>
+        
+        <div class="col-sm-8" style="border: 10px solid">
+            
+    <iframe width="100%" height="520" frameborder=0 src="https://mtlawder.cartodb.com/viz/bcb06160-c9e3-11e5-bde9-0e5db1731f59/embed_map" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
+            
+        </div>
+        <div class="col-sm-2">
+
+            <img src="/static/Map_Legend.jpg"  class="img-responsive" alt="Placeholder">
+
+        </div>
+    </div>
+    <br>
+                    <div class="tophead">
+                    <br>
+                    <center>
+                    <h2 id="Energy_Tool">Choose a node to analyze the historical energy prices</h2>  
+          <br>
+                        </center>
+        </div>
+    <br>
+    <div class="container">
+        <div class="col-sm-12">
+            <p>You can select from over 100 node points throughout the Midwest region to see the histroical energy prices at each node for any date range over the previous 4 years.</p>
+            <p>Select the <i>Single Node</i> option to look at an indivdual node points changes in energy prices. Select the <i>Compare Two Nodes</i> option to see the differences in prices at each node. The difference in price between nodes is considered the effective transmission costs for buying power from these sites.</p>
+        </div>
+    </div>
+    <div class="container">
+           
+<!--THis is the Entry Form-->        
+        <div class="col-sm-4">
+            <div class="col-sm-12">
+                <br><br><br><br><br>
+            </div>
+            <form class="form-horizontal" id='nodename' method='post' action='data_plot'>
+                <div class="form-group">
+                    <label for="nodename" class="col-sm-4 control-label">Node 1</label>
+                    <div class="col-sm-8">
+                    <div class="ui-widget">
+                        <input type="text" id="tags" class="form-control" name="nodename" placeholder="First Node">
+                    </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="nodename2" class="col-sm-4 control-label">Node 2</label>
+                    <div class="col-sm-8">
+                    <div class="ui-widget">
+                        <input type="text" id="tags2" class="form-control" name="nodename2" placeholder="Second Node">
+                    </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="nodenum" class="col-sm-4 control-label">Single Node</label>
+                    <div class="col-sm-2">
+                        <input type="radio" class="radio" name="nodenum" value="1nodes" checked>
+                    </div>
+                    <label for="nodenum" class="col-sm-4 control-label">Compare Two Nodes</label>
+                    <div class="col-sm-2">
+                        <input type="radio" class="radio" name="nodenum" value="2nodes">
+                    </div>
+                </div>   
+                <div class="form-group">
+                    <label for="start_date" class="col-sm-4 control-label">Start Date</label>
+                    <div class="col-sm-8">
+                        <input type="date" class="form-control" name="start_date" min=2011-07-31 max=2015-09-30 value=2015-09-01>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="end_date" class="col-sm-4 control-label">End Date</label>
+                    <div class="col-sm-8">
+                        <input type="date" class="form-control" name="end_date" min=2011-07-31 max=2015-09-30 value=2015-09-30>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-4 col-sm-8">
+                        <button type="submit" class="btn btn-primary btn-lg">  Submit Nodes  </button>
+                    </div>
+                </div>
+            </form>
+            <center>
+<p>
+                {{Nodename}}
+                </p>
+            </center>
+        </div>
+      
+<!-- This is the Map-->        
+        <div class="col-sm-8">
+            <div id="map" style="border: 10px solid; margin:5px"></div>
+        </div>
+    </div>
+    <p id="demo"></p>
+<!-- include cartodb.js library -->
+    <script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+      
+
+    <!-- Drop your code between the script tags below! -->
+    <script>
+    window.onload = function(){
+    var option ={center:[50.5,-92.5],
+                zoom: 5};
+    var vizjson = 'https://mtlawder.cartodb.com/api/v2/viz/53648bdc-b94e-11e5-bac2-0ef24382571b/viz.json';
+    cartodb.createVis('map', vizjson);
+
+    }
+       
+    </script>
+
+		    <div class="tophead">
+                    <br>
+                    <center>
+                    <h2 id="MISO">MISO: the market for energy</h2>  
+          <br>
+                        </center>
+        </div>
+	<div class="container">
+        <div class="col-sm-12">
+           
+     
+            <br>
+            <br>
+			<p> MISO stands for Midcontinent Independent System Operators. It is a Regional Trnasmission Organization that maintains the energy market for a large swath of the Midwest and parts of Canada. ""Under Construction, more info to come soon.
+            </div>
+    </div>
+	
+	    <div class="tophead">
+                    <br>
+                    <center>
+                    <h2 id="Author">About the Author: Matthew T. Lawder</h2>  
+          <br>
+                        </center>
+        </div>
+	<div class="container">
+        <div class="col-sm-3">
+           <img src="/static/MTL_headshot.jpg"  class="img-responsive" alt="Responsive image"> 
+        </div>
+        <div class="col-sm-9">
+            <br><br>
+            <br>
+            <p>
+                I recently graduated from Washington University in St. Louis with a PhD in Energy, Environmental, and Chemical Engineering. During my tenure in grad school, I researched computational Li-ion battery modeling and conducted long-term battery aging experiments. Conducting long-term studies, created the oppurtunity to develop skills for dealing with and analyzing large data sets. I am currently a Fellow at The Data Incubator in New York City where I am continuing to develop my abilities for data science.</p>
+            <p>
+                Outside of work, I enjoy running. In 2015, I completed both the Boston and New York City Marathons. In Boston I finished 46th overall (22nd American) in a time of 2:26:21. If you would like to know more about me or my qualifications please contact me at matthew.lawder@mg.thedataincubator.com.</p>
+        </div>
+    </div>
+	
+  </body>
+</html>
+<!-- Delete Table
+    <div class=container>
+        <table class="table">
+            <caption>Chosen Nodes</caption>
+            <thead>
+             <tr>
+            <th></th> <th>Node Name</th> <th>State</th> <th>Type</th> </tr> </thead> <tbody>
+            <tr>
+            <th scope="row">1</th> <td>{{node1n}}</td> <td>{{node1s}}</td> <td>{{node1t}}</td> </tr>
+            <tr>
+            <th scope="row">2</th> <td>Jacob</td> <td>Thornton</td> <td>@fat</td> </tr>
+            <tr>
+            <th scope="row">3</th> <td>Larry</td> <td>the Bird</td> <td>@twitter</td> </tr> </tbody>
+        </table>
+        </div>
+-->
