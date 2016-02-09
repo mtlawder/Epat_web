@@ -8,19 +8,18 @@ from bokeh.document import Document
 app=Flask(__name__)
 
 
-import pandas as pd
-import numpy as np
-import sqlite3
-import datetime
-import re
-from sklearn.linear_model import LinearRegression
+#import pandas as pd
+#import numpy as np
+#import sqlite3
+#import datetime
+#import re
+#from sklearn.linear_model import LinearRegression
 
 #NODE_info=pd.read_csv('N_info.csv')
 #NODE_front=[NODE_info['NODE_NAME'][x].split(".")[0] for x in range(len(NODE_info))]
 
 @app.route('/')
 def main():
-
     return redirect('/index_Main')
 
 @app.route('/index_Main',methods=['GET','POST'])
