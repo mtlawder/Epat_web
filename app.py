@@ -1,9 +1,9 @@
 from flask import Flask, render_template, redirect, request
-#from bokeh.plotting import figure, show, output_file, vplot
-#from bokeh.embed import autoload_server, components
-#from bokeh.models import Range1d
-#from bokeh.session import Session
-#from bokeh.document import Document
+from bokeh.plotting import figure, show, output_file, vplot
+from bokeh.embed import autoload_server, components
+from bokeh.models import Range1d
+from bokeh.session import Session
+from bokeh.document import Document
 
 app=Flask(__name__)
 
