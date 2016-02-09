@@ -1,22 +1,22 @@
 from flask import Flask, render_template, redirect, request
-from bokeh.plotting import figure, show, output_file, vplot
-from bokeh.embed import autoload_server, components
-from bokeh.models import Range1d
-from bokeh.session import Session
-from bokeh.document import Document
+#from bokeh.plotting import figure, show, output_file, vplot
+#from bokeh.embed import autoload_server, components
+#from bokeh.models import Range1d
+#from bokeh.session import Session
+#from bokeh.document import Document
 
 app=Flask(__name__)
 
-import urllib2
-import json
-import pandas as pd
-import numpy as np
-import os
-import sqlite3
-import datetime
+#import urllib2
+#import json
+#import pandas as pd
+#import numpy as np
+#import os
+#import sqlite3
+#import datetime
 
-import re
-from sklearn.linear_model import LinearRegression
+#import re
+#from sklearn.linear_model import LinearRegression
 
 @app.route('/')
 def main():
