@@ -1,0 +1,121 @@
+<!doctype html>
+<head>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+    
+    <link href="http://cdn.pydata.org/bokeh/release/bokeh-0.10.0.min.css" rel="stylesheet" type="text/css">
+
+    <script src="http://cdn.pydata.org/bokeh/release/bokeh-0.10.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    
+    {{ script | safe }}
+    {{ script2 | safe }}
+<style>
+     div.tophead {background-color: #428bca;
+        color: White}
+    </style>
+    <script type="text/javascript">
+    $('.button1').click(function () {
+        $.ajax({type: 'GET', url: 'http://misodata.herokuapp.com/index_Main#Energy_Tool'});
+    });
+</script>
+<script>
+$(document).ready(function(){
+    $("#hide").click(function(){
+        $("div.moreplot").hide();
+    });
+    $("#show").click(function(){
+        $("div.moreplot").show();
+    });
+});
+</script>
+
+
+</head>
+
+
+<title>{{node1n}} Plot</title>
+
+<body>
+<div class="tophead">
+            <br><center>
+            <h1> Analyzing Historical Energy Prices</h1>
+                <h4>{{node1n}} and {{node2}}</h4>
+                    <br>
+    </center>
+                    </div>
+        <nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+          
+          <li><a href="/index_Main"> Home </a></li>
+
+        <li><a href="/wind_details">Main Project </a></li>
+          <li><a href="/wind_details"> Build a new Wind Farm </a></li>
+          <li><a href="/index_Main#Energy_Tool"> Analyze Energy Prices </a></li>
+          <li><a href="/index_Main#Energy_Tool"> Determine Transmission Cost </a></li>
+          <li><a href="/index_Main#MISO"> Learn more about MISO </a></li>
+          <li><a href="/index_Main#Author"> About Author </a></li>
+          
+              </ul>
+      
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+    
+    <br>
+    <div class="container">
+        <div class="col-sm-12">
+            <center>
+            
+        {{ div | safe }}
+            <h3>Transmission Costs from <b>{{node1n}}</b> to <b>{{node2}}</b>:</h3>
+            <h3><b> ${{transcost}} per MWh per day </b></h3>
+                <button id="show" class="btn btn-primary btn-lg">Show Individual Node Prices</button>
+                <button id="hide" class="btn btn-primary btn-lg">Hide</button>
+
+                <div class="moreplot" style="display:none;">
+        {{div2 | safe }}
+                    {{node1n}} - <font color="green">Green</font>  {{node2}} - <font color="red">Red</font>
+                </div>
+            </center>
+            <br>
+        </div>
+    </div>
+
+    <div class="container">
+
+<div class="col-sm-12">
+    <center>
+                <form id='backtomain' method='get' action='/index_Main#Energy_Tool' >
+                <input type='submit' value='Back to Energy Map' class="btn btn-primary btn-lg" >
+            </form>
+                        <form id='windreport' method='get' action='wind_analysis' >
+                <input type='submit' value='Generate a Wind Report' class="btn btn-primary btn-lg" >
+            </form>
+    </center>
+    </div>
+    </div>
+        <div class="col-sm-5">
+            <p>{{cout}}</p>
+        </div>
+    
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+</body>
