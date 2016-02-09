@@ -20,7 +20,16 @@ from sklearn.linear_model import LinearRegression
 
 @app.route('/')
 def main():
-    return redirect('/index_Main')
+    return redirect('/index')
+
+@app.route('/index')
+def index():
+    return render_template('Milestone_Main.html')
+
+
+#@app.route('/')
+#def main():
+#    return redirect('/index_Main')
 
 #NODE_info=pd.read_csv('N_info.csv')
 #NODE_front=[NODE_info['NODE_NAME'][x].split(".")[0] for x in range(len(NODE_info))]
