@@ -7,8 +7,8 @@ def main():
     return redirect('/index')
 
 @app.route('/index_Main')
-def index():
-    return render_template('Mileston_Main.html')
+def index_Main():
+    return render_template('Milestone_Main.html')
 
 if __name__ == '__main__':
     app.run(host='159.203.65.80',port=33507)
