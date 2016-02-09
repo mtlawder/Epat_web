@@ -15,8 +15,8 @@ import datetime
 import re
 #from sklearn.linear_model import LinearRegression
 
-#NODE_info=pd.read_csv('N_info.csv')
-#NODE_front=[NODE_info['NODE_NAME'][x].split(".")[0] for x in range(len(NODE_info))]
+NODE_info=pd.read_csv('N_info.csv')
+NODE_front=[NODE_info['NODE_NAME'][x].split(".")[0] for x in range(len(NODE_info))]
 
 @app.route('/')
 def main():
